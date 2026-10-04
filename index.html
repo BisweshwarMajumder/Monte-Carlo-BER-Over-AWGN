@@ -1,0 +1,32 @@
+      constCtx.strokeStyle = 'rgba(51, 65, 85, 0.6)'; constCtx.lineWidth = 1;
+      constCtx.beginPath();
+      constCtx.moveTo(0, cy); constCtx.lineTo(cW, cy);
+      constCtx.moveTo(cx, 0); constCtx.lineTo(cx, cH);
+      constCtx.stroke();
+      constCtx.strokeStyle = 'rgba(51, 65, 85, 0.3)';
+      constCtx.beginPath();
+      constCtx.arc(cx, cy, radius, 0, 2 * Math.PI);
+      constCtx.stroke();
+      scatterCloud.forEach((pt, idx) => {
+        const alpha = (idx + 1) / scatterCloud.length;
+        const px = cx + pt.rxI * radius, py = cy - pt.rxQ * radius;
+        constCtx.fillStyle = pt.err ? `rgba(244, 63, 94, ${alpha * 0.85})` : `rgba(56, 189, 248, ${alpha * 0.65})`;
+        constCtx.beginPath();
+        constCtx.arc(px, py, 2.5, 0, 2 * Math.PI);
+        constCtx.fill();
+      });
+      const cfg = MOD_CONFIGS[currentMod];
+      cfg.symbols.forEach(s => {
+        const px = cx + (s.I * cfg.norm) * radius, py = cy - (s.Q * cfg.norm) * radius;
+        constCtx.fillStyle = '#10b981'; constCtx.strokeStyle = '#ffffff'; constCtx.lineWidth = 1.5;
+        constCtx.beginPath();
+        constCtx.arc(px, py, 4.5, 0, 2 * Math.PI);
+        constCtx.fill(); constCtx.stroke();
+      });
+      requestAnimationFrame(animate);
+    }
+    simulateNewSymbol();
+    requestAnimationFrame(animate);
+  </script>
+</body>
+</html>
